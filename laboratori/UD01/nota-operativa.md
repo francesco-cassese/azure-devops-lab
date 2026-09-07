@@ -12,4 +12,4 @@ pwd
 
 L'output indicava un percorso interno alla home Linux (non iniziava con `/mnt/c`), confermato anche nel test pratico di apertura di VS Code da Ubuntu, dove l'indicatore `WSL: Ubuntu` era visibile nella finestra.
 
-**Nota per il futuro**: aprire sempre Ubuntu senza passare da una cartella Windows, così si parte direttamente in `/home/franc` e non in `/mnt/c`.
+**Nota per il futuro**: aprire sempre Ubuntu senza passare da una cartella Windows, così si parte direttamente nella home Linux e non in `/mnt/c`.
