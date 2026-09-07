@@ -26,9 +26,9 @@ Stato dell'invito al docente (`inviato` oppure `accettato`): accettato
 a3c9802 Completa setup ed evidenza dell'UD01
 ```
 
-Problema incontrato o possibile: nessuno.
+Problema incontrato o possibile: la sezione 13 della guida richiede di eseguire `chmod +x` sullo script diagnostico direttamente dentro `corso-azure-devops` (repository che altrove viene trattato come di sola lettura). Il cambio di permessi è stato registrato da Git come una modifica al file, anche senza toccarne il contenuto.
 
-Prima verifica diagnostica: —
+Prima verifica diagnostica: `git status --short` nel repository del corso, che mostrava `M` sul file dello script. Risolto con `git checkout -- <percorso file>` per riportarlo allo stato originale prima del prossimo `git pull`.
 
 ## Controllo sicurezza
 
