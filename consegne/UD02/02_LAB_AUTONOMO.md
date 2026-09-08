@@ -30,4 +30,4 @@ Nessun errore bloccante in questa parte. Osservazione utile: la subnet creata da
 
 - risorse eliminate: `az group delete --name "$AUTO_RG" --yes --no-wait`, che elimina insieme resource group, VNet e storage account.
 - controllo finale: `az group exists --name "$AUTO_RG"` → `false`.
-- hash abbreviato e messaggio del commit: *(da aggiungere con un secondo commit dopo aver visto l'hash di questo, stesso motivo per cui l'ho fatto anche in UD01)*
+- hash abbreviato e messaggio del commit: `3336378`, "Completa lo scenario Azure autonomo"
