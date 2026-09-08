@@ -17,7 +17,7 @@
 
 ## Decisioni e verifiche
 
-*(sezione da completare con il confronto finale portale/CLI dopo l'inventario)*
+Confrontato anche l'elenco "Resources" del resource group nel portale con l'inventario CLI: stesse risorse, stessi tipi. La "JSON View" di una risorsa mostra la stessa struttura dell'ID già vista in forma anonimizzata da CLI.
 
 La differenza principale tra portale e CLI: sulla virtual network, il portale mostrava la subnet corretta (`10.20.1.0/24`), ma la query CLI della guida (`addressPrefix`) restituiva `null`. Causa: Azure ora usa il campo `addressPrefixes` (plurale) per le subnet create con la UI più recente — le due proprietà non sono intercambiabili (fonte: [documentazione Microsoft](https://learn.microsoft.com/en-us/azure/virtual-network/how-to-multiple-prefixes-subnet)). Corretta la query, il valore è comparso.
 
