@@ -32,4 +32,4 @@ Anche per lo storage account il portale era più aggiornato della guida: campo "
 
 ## Rilevanza professionale
 
-Spiega come inventario, tag e verifica del cleanup rendono una procedura ripetibile e controllabile.
+Il cleanup non è completo solo lanciando il comando di eliminazione (`az group delete`): lo è quando si verifica che la risorsa non esiste più (`az group exists`). I tag facilitano inventario (`az resource list`), governance e analisi dei costi, dando un contesto a ogni risorsa senza doverlo ricordare a mente.
