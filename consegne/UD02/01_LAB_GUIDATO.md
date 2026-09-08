@@ -2,16 +2,16 @@
 
 ## Contesto verificato
 
-- Azure Portal accessibile:
-- Azure CLI autenticata:
-- sottoscrizione corretta verificata senza pubblicarne l'ID:
-- località scelta e motivo:
+- Azure Portal accessibile: sì, ho fatto il login su portal.azure.com con il mio account e vedo la sottoscrizione del laboratorio nell'elenco.
+- Azure CLI autenticata: sì, avevo già fatto il login in UD01 (`az login --use-device-code`) e risultava ancora attivo, confermato con `az account show`.
+- sottoscrizione corretta verificata senza pubblicarne l'ID: controllata con `az account show --output table`, il nome della sottoscrizione corrisponde a quella assegnata al laboratorio; non riporto l'ID come richiesto.
+- località scelta e motivo: `italynorth`, perché risultava disponibile per la mia sottoscrizione (verificato con `az account list-locations`) ed è la prima opzione indicata dal laboratorio, quindi non ho dovuto usare l'alternativa `westeurope`.
 
 ## Ambiente creato
 
 | Elemento | Nome tecnico | Tipo | Località | Scopo |
 |---|---|---|---|---|
-| Resource group | | | | |
+| Resource group | rg-cea-ud02-e385bc0c | Resource group | Italy North | Contenitore dedicato al laboratorio UD02, così l'eliminazione finale rimuove tutto insieme senza toccare altre risorse |
 | Rete virtuale | | | | |
 | Storage account | | | | |
 
@@ -29,4 +29,3 @@ Descrivi perché le risorse appartengono allo stesso resource group, quali respo
 ## Rilevanza professionale
 
 Spiega come inventario, tag e verifica del cleanup rendono una procedura ripetibile e controllabile.
-
