@@ -25,10 +25,10 @@ Anche per lo storage account il portale era più aggiornato della guida: campo "
 
 ## Cleanup
 
-- operazione di eliminazione:
-- controllo utilizzato:
-- risultato finale:
-- eventuale anomalia e soluzione:
+- operazione di eliminazione: `az group delete --name "$LAB_RG" --yes --no-wait`, seguito da `az group wait --name "$LAB_RG" --deleted` per attendere il completamento.
+- controllo utilizzato: `az group exists --name "$LAB_RG"`.
+- risultato finale: `false`, resource group eliminato insieme a virtual network e storage account che conteneva.
+- eventuale anomalia e soluzione: al primo tentativo, `az group delete` ha restituito l'errore `AADSTS530035: Access has been blocked by security defaults`, ripresentatosi anche rifacendo il login con `az login --use-device-code`. Risolto rifacendo il login con `az login` normale (senza device code): l'accesso è tornato disponibile, confermato con `az account show`, e da lì il cleanup è andato a buon fine.
 
 ## Rilevanza professionale
 
