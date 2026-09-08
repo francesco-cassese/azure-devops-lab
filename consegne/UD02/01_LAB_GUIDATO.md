@@ -13,13 +13,15 @@
 |---|---|---|---|---|
 | Resource group | rg-cea-ud02-e385bc0c | Resource group | Italy North | Contenitore dedicato al laboratorio UD02, così l'eliminazione finale rimuove tutto insieme senza toccare altre risorse |
 | Rete virtuale | vnet-cea-ud02 | Virtual network (10.20.0.0/16) con subnet snet-app (10.20.1.0/24) | Italy North | Spazio di rete logico dedicato al laboratorio, per osservare struttura e proprietà prima di usarla davvero |
-| Storage account | | | | |
+| Storage account | stceae385bc0c | Storage account (StorageV2, Standard_LRS) | Italy North | Storage vuoto dedicato al laboratorio, con accesso Blob pubblico disabilitato e TLS minimo 1.2 |
 
 ## Decisioni e verifiche
 
-*(sezione da completare con le altre risorse — per ora la differenza osservata tra portale e CLI)*
+*(sezione da completare con il confronto finale portale/CLI dopo l'inventario)*
 
-La differenza più chiara che ho notato finora è sul virtual network. Sul portale la subnet era creata bene, con l'intervallo giusto (`10.20.1.0/24`) visibile a schermo. Ma controllando da riga di comando con la query suggerita dalla guida, il campo del prefisso usciva vuoto (`null`). All'inizio ho pensato di aver sbagliato qualcosa nella creazione. In realtà la risorsa era corretta: Azure oggi salva quel dato in un campo diverso (`addressPrefixes`, con la "s") rispetto a quello usato dalla query della guida (`addressPrefix`, senza "s"). Cambiando il nome del campo nella query, il valore giusto è comparso. Anche la documentazione Microsoft dice di usare sempre `addressPrefixes` (fonte: https://learn.microsoft.com/en-us/azure/virtual-network/how-to-multiple-prefixes-subnet). Questa cosa mi ha fatto capire perché nel laboratorio si ricontrolla sempre da CLI quello che si fa da portale: a volte il portale è aggiornato ma il comando che uso per controllare no.
+La differenza principale tra portale e CLI: sulla virtual network, il portale mostrava la subnet corretta (`10.20.1.0/24`), ma la query CLI della guida (`addressPrefix`) restituiva `null`. Causa: Azure ora usa il campo `addressPrefixes` (plurale) per le subnet create con la UI più recente — le due proprietà non sono intercambiabili (fonte: [documentazione Microsoft](https://learn.microsoft.com/en-us/azure/virtual-network/how-to-multiple-prefixes-subnet)). Corretta la query, il valore è comparso.
+
+Anche per lo storage account il portale era più aggiornato della guida: campo "Primary service" mai citato (lasciato sul default, general purpose v2) e, nel riepilogo finale, i tag sembravano coinvolgere anche una virtual network e un private endpoint mai richiesti. Verificato scaricando il template ARM proposto dal portale: conteneva solo lo storage account, nessun'altra risorsa.
 
 ## Cleanup
 
