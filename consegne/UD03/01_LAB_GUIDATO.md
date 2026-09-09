@@ -57,7 +57,15 @@ Evidenza anonimizzata (subscription ID rimosso):
 
 ## Cleanup
 
-Registra rimozione degli oggetti temporanei e verifica finale del resource group.
+Ho rimosso gli oggetti temporanei in questo ordine:
+
+1. il lock `lock-cea-delete` (bloccava anche l'eliminazione del budget, quindi tolto per primo)
+2. il budget `budget-cea-2df2ba`
+3. l'assegnazione Reader di `grp-cea-readers-2df2ba` sul resource group
+4. l'utente `cea-lab-2df2ba` (prima tolto dal gruppo) e il gruppo stesso
+5. il resource group `rg-cea-identity-2df2ba`, con `az group delete --name "$LAB_RG" --yes --no-wait`
+
+Verifica finale con `az group exists --name "$LAB_RG"`: risposta `false`.
 
 ## Rilevanza professionale
 
