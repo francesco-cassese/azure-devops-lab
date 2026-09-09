@@ -131,11 +131,3 @@ Un tecnico deve consultare una VNet in `rg-network-prod`. Riceve Contributor sul
 **Domanda 16**: Spiega separatamente perché non riesce ad assegnare il ruolo e perché non riesce a eliminare lo scope.
 
 **Risposta**: Non riesce ad assegnare Reader al collega perché Contributor non ha il permesso `roleAssignments/write`, serve Owner o Role Based Access Control Administrator. Non riesce a eliminare lo scope perché c'è un lock `CanNotDelete`, che blocca l'eliminazione a chiunque, indipendentemente dal ruolo RBAC posseduto.
-
-Controlla e prepara soltanto il file della verifica:
-
-```bash
-git diff -- consegne/UD03/03_VERIFICA.md
-git add consegne/UD03/03_VERIFICA.md
-git diff --cached -- consegne/UD03/03_VERIFICA.md
-```
