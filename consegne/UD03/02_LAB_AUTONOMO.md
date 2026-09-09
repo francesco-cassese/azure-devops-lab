@@ -96,14 +96,14 @@ Il budget invece non blocca niente. `budget-cea-2df2ba` confronta la spesa con u
 
 Checklist di cleanup, in ordine:
 
+- rimuovere il lock `CanNotDelete`
 - rimuovere il budget
 - rimuovere l'assegnazione Reader al gruppo
-- rimuovere il lock `CanNotDelete`
 - rimuovere utente e gruppo temporanei
 - eliminare il resource group con `az group delete --name "$LAB_RG" --yes`
 - verificare con `az group exists --name "$LAB_RG"` che risulti `false`
 
-Il lock va tolto prima di eliminare il resource group, altrimenti l'eliminazione fallisce con `ScopeLocked`. Budget e assegnazione Reader non bloccano l'eliminazione, ma li tolgo comunque per primi per non lasciare riferimenti a un resource group che sto per cancellare.
+Il lock va tolto per primo: blocca l'eliminazione di tutto ciò che sta sotto il suo scope, non solo del resource group, quindi anche il budget non si riesce a rimuovere finché il lock è ancora attivo.
 
 ## Risultato finale
 
