@@ -66,35 +66,95 @@ Cleanup: eliminato il resource group `rg-ud03-policy` (rimuove insieme le tre VN
 
 ## Quiz finale – stile AZ-104
 
-1. Un utente ha Reader su un Resource Group ma Contributor sulla subscription che lo contiene. Quali autorizzazioni effettive possiede sul Resource Group? (A. Solo Reader / B. Contributor / C. Owner / D. Nessuna)
+1. Un utente ha Reader su un Resource Group ma Contributor sulla subscription che lo contiene. Quali autorizzazioni effettive possiede sul Resource Group?
+
+   - A. Solo Reader
+   - B. Contributor
+   - C. Owner
+   - D. Nessuna
+
    **Risposta:** B. I permessi si sommano, vince il più ampio: qui è Contributor.
 
-2. Un tecnico deve creare e modificare VM, dischi e reti ma non deve assegnare ruoli RBAC. (A. Reader / B. Contributor / C. Owner / D. Global Administrator)
+2. Un tecnico deve creare e modificare VM, dischi e reti ma non deve assegnare ruoli RBAC.
+
+   - A. Reader
+   - B. Contributor
+   - C. Owner
+   - D. Global Administrator
+
    **Risposta:** B. Contributor modifica le risorse ma non assegna ruoli, è proprio quello che serve qui.
 
-3. Quale componente Azure RBAC identifica chi riceve le autorizzazioni? (A. Scope / B. Role definition / C. Security principal / D. Resource Lock)
+3. Quale componente Azure RBAC identifica chi riceve le autorizzazioni?
+
+   - A. Scope
+   - B. Role definition
+   - C. Security principal
+   - D. Resource Lock
+
    **Risposta:** C. Security principal è il chi. Role definition è il cosa, mi confondo facile tra i due.
 
-4. Quale componente Azure RBAC definisce quali operazioni sono consentite? (A. Role definition / B. Tenant / C. Management Group / D. Security principal)
+4. Quale componente Azure RBAC definisce quali operazioni sono consentite?
+
+   - A. Role definition
+   - B. Tenant
+   - C. Management Group
+   - D. Security principal
+
    **Risposta:** A. Role definition dice cosa si può fare.
 
-5. L'organizzazione deve impedire la distribuzione di risorse al di fuori delle regioni autorizzate. (A. Azure RBAC / B. Azure Policy / C. Resource Lock / D. NSG)
+5. L'organizzazione deve impedire la distribuzione di risorse al di fuori delle regioni autorizzate.
+
+   - A. Azure RBAC
+   - B. Azure Policy
+   - C. Resource Lock
+   - D. NSG
+
    **Risposta:** B. È la policy Allowed locations, l'ho provata sopra nel laboratorio.
 
-6. Una risorsa critica di produzione non deve essere eliminata accidentalmente. (A. Reader / B. Policy con Audit / C. Resource Lock CanNotDelete / D. Budget)
+6. Una risorsa critica di produzione non deve essere eliminata accidentalmente.
+
+   - A. Reader
+   - B. Policy con Audit
+   - C. Resource Lock CanNotDelete
+   - D. Budget
+
    **Risposta:** C. Il lock blocca l'eliminazione a tutti, anche a chi ha il ruolo giusto.
 
-7. Un Resource Group ha un lock CanNotDelete. (A. Non può essere modificato né eliminato / B. Può essere modificato ma non eliminato / C. Può essere eliminato dagli Owner / D. Sono bloccate solo modifiche di rete)
+7. Un Resource Group ha un lock CanNotDelete.
+
+   - A. Non può essere modificato né eliminato
+   - B. Può essere modificato ma non eliminato
+   - C. Può essere eliminato dagli Owner
+   - D. Sono bloccate solo modifiche di rete
+
    **Risposta:** B. CanNotDelete blocca solo l'eliminazione, le modifiche si possono ancora fare.
 
-8. È stato impostato un Budget mensile di 100 euro. Cosa accade normalmente superando 100 euro? (A. Azure arresta tutte le VM / B. Azure elimina alcune risorse / C. Il Budget può generare avvisi, ma non blocca automaticamente la spesa / D. La subscription viene sospesa immediatamente)
+8. È stato impostato un Budget mensile di 100 euro. Cosa accade normalmente superando 100 euro?
+
+   - A. Azure arresta tutte le VM
+   - B. Azure elimina alcune risorse
+   - C. Il Budget può generare avvisi, ma non blocca automaticamente la spesa
+   - D. La subscription viene sospesa immediatamente
+
    **Risposta:** C. Il budget avvisa, non blocca la spesa.
 
-9. Un utente deve visualizzare le risorse di un Resource Group senza modificarle. (A. Reader / B. Contributor / C. Owner / D. User Access Administrator)
+9. Un utente deve visualizzare le risorse di un Resource Group senza modificarle.
+
+   - A. Reader
+   - B. Contributor
+   - C. Owner
+   - D. User Access Administrator
+
    **Risposta:** A. Reader è sola lettura.
 
-10. Quale descrizione distingue correttamente RBAC e Policy? (A. RBAC controlla la rete e Policy gli utenti / B. RBAC stabilisce chi può eseguire operazioni; Policy stabilisce quali configurazioni sono consentite / C. RBAC si applica solo alle VM / D. Sono la stessa funzionalità)
-   **Risposta:** B. Chi può agire (RBAC) e cosa è permesso configurare (Policy) sono due cose diverse.
+10. Quale descrizione distingue correttamente RBAC e Policy?
+
+    - A. RBAC controlla la rete e Policy gli utenti
+    - B. RBAC stabilisce chi può eseguire operazioni; Policy stabilisce quali configurazioni sono consentite
+    - C. RBAC si applica solo alle VM
+    - D. Sono la stessa funzionalità
+
+    **Risposta:** B. Chi può agire (RBAC) e cosa è permesso configurare (Policy) sono due cose diverse.
 
 ---
 
