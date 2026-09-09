@@ -109,4 +109,4 @@ Il lock va tolto prima di eliminare il resource group, altrimenti l'eliminazione
 
 - output anonimizzati utilizzati: l'evidenza JSON in "Analisi dell'accesso" (`az role assignment list --include-inherited`, subscription id omesso)
 - cleanup verificato: rimossi in ordine il lock `lock-cea-delete`, il budget `budget-cea-2df2ba`, l'assegnazione Reader del gruppo, l'utente `cea-lab-2df2ba` e il gruppo `grp-cea-readers-2df2ba`, infine il resource group `rg-cea-identity-2df2ba`. Confermato con `az group exists --name "$LAB_RG"` che risulta `false`.
-- hash abbreviato e messaggio del commit: 
+- hash abbreviato e messaggio del commit: `5e65321`, "Completa laboratorio identita accessi e governance"
