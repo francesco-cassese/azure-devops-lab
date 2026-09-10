@@ -118,7 +118,8 @@ Per le domande 1–8 riporta risposta e motivazione.
 
 14. **Domanda:** Individua almeno tre problemi.<br>
 
-    **Risposta:** Primo problema: Contributor è troppo ampio per il bisogno, gestisce tutta la risorsa ma non dà accesso ai blob via Entra ID. Secondo problema: l'account key condivisa dà accesso completo a tutto l'account. Terzo problema: la SAS ha permessi completi e nessuna scadenza breve, quindi non è limitata quasi per niente.
+    **Risposta:**<br> 
+    **Primo problema:** Contributor è troppo ampio per il bisogno, gestisce tutta la risorsa ma non dà accesso ai blob via Entra ID.<br>**Secondo problema:** l'account key condivisa dà accesso completo a tutto l'account. <br>**Terzo problema:** la SAS ha permessi completi e nessuna scadenza breve, quindi non è limitata quasi per niente.
 
 ---
 
