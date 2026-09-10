@@ -26,7 +26,7 @@ Ho creato una regola di lifecycle (`delete-temporary`) che cancella i blob non m
 
 ## Verifiche, costi e cleanup
 
-Ho rimosso dal portale il ruolo Storage Blob Data Contributor assegnato per il laboratorio. I driver di costo principali erano capacità occupata (il file era piccolissimo, pochi byte), ridondanza LRS (la più economica, tanto qui non mi serve resistere a un guasto zonale) e tier Hot, lasciato di default come indicato dalla guida. Per il cleanup ho lanciato `az group delete --name "$LAB_RG" --yes --no-wait`, aspettato con `az group wait --name "$LAB_RG" --deleted`, e verificato con `az group exists --name "$LAB_RG"`, che ha risposto `false`: le risorse sono state eliminate con successo.
+Ho rimosso dal portale il ruolo Storage Blob Data Contributor assegnato per il laboratorio. I driver di costo principali erano capacità occupata (il file era piccolissimo, pochi byte), ridondanza LRS (la più economica, tanto qui non mi serve resistere a un guasto zonale) e tier Hot, lasciato di default come indicato dalla guida. Per il cleanup ho lanciato `az group delete --name "$LAB_RG" --yes --no-wait`, aspettato con `az group wait --name "$LAB_RG" --deleted`, e verificato con `az group exists --name "$LAB_RG"`, che ha risposto `false`, a conferma che le risorse sono state eliminate con successo.
 
 ## Rilevanza professionale
 
