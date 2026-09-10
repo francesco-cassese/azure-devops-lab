@@ -46,5 +46,5 @@ Per il cleanup l'ordine giusto è questo:
 
 ## Risultato finale
 
-- nessun segreto pubblicato:
-- hash abbreviato e messaggio del commit:
+- nessun segreto pubblicato: verificato con git diff --cached prima del commit, nessun token SAS, chiave o ID reale presente
+- hash abbreviato e messaggio del commit: d2b72d3 Complete UD04 autonomous lab (Blob service choice, SAS, diagnostics, lifecycle)
