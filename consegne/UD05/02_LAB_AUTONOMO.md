@@ -42,5 +42,5 @@ Correzione minima: se una regola con priorità più bassa nega il traffico previ
 
 - regola autonoma rimossa: sì, confermato con `az network nsg rule list`
 - cleanup verificato: verificato con `az group exists`, che ha risposto `false`: il resource group e tutte le risorse (VNet, subnet, NSG, NIC) non esistono più
-- hash abbreviato e messaggio del commit:
+- hash abbreviato e messaggio del commit: `7d96e9b` Complete UD05 cleanup sections
 
