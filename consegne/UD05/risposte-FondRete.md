@@ -119,7 +119,7 @@ Il PC e il gateway non sono nella stessa rete, il terzo numero è diverso (`10` 
 
 ---
 
-# Checklist pre-laboratorio (18 domande di autoverifica)
+# Checklist pre-laboratorio 
 
 **Domanda 1**
 
