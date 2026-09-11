@@ -1,4 +1,4 @@
-# Esercizi svolti — Ripasso fondamenti di rete 
+# Quiz Ripasso fondamenti di rete 
 
 ## Esercizio 1
 
