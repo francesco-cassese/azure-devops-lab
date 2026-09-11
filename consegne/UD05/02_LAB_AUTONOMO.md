@@ -41,6 +41,6 @@ Correzione minima: se una regola con priorità più bassa nega il traffico previ
 ## Cleanup e risultato finale
 
 - regola autonoma rimossa: sì, confermato con `az network nsg rule list`
-- cleanup verificato:
+- cleanup verificato: verificato con `az group exists`, che ha risposto `false`: il resource group e tutte le risorse (VNet, subnet, NSG, NIC) non esistono più
 - hash abbreviato e messaggio del commit:
 

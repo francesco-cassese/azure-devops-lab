@@ -32,7 +32,7 @@ Ho verificato configurazione e regole effettive, non la connettività: arriverà
 
 ## Costi e cleanup
 
-Registra risorse create, possibili costi, eliminazione e verifica finale.
+VNet, NSG e NIC non hanno un costo significativo come una VM, ma il cleanup resta obbligatorio per non lasciare ambienti abbandonati. Ho eliminato il resource group con `az group delete --yes --no-wait`, aspettato con `az group wait --deleted`, e verificato con `az group exists`, che ha risposto `false`.
 
 ## Rilevanza professionale
 
