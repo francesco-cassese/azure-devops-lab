@@ -107,5 +107,5 @@ e mi dava sempre `WEB_RUNTIME` vuoto. Ho controllato l'output vero di `az webapp
 
 ## Cleanup
 
-- Resource Group eliminato:
-- `az group exists`:
+- Resource Group eliminato: sì (`az group delete --name rg-ud06-compute --yes`)
+- `az group exists`: `false`
