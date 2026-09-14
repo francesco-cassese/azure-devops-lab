@@ -22,9 +22,9 @@
 ## Azure Monitor
 
 - metrica VM: Percentage CPU, Network In Total, Network Out Total
-- intervallo: Last 24 hours
-- aggregazione: Avg (CPU), Sum (Network In/Out)
-- osservazione: CPU quasi a zero, la VM non stava facendo niente di pesante. Network In e Out bassi, solo il traffico dei test che ho fatto io
+- intervallo: provato sia Last 24 hours che Last hour
+- aggregazione: provato sia Avg che Max (per la CPU)
+- osservazione: con Avg su 24 ore la CPU sembrava quasi a zero (0,79%), come se la VM non facesse niente. Cambiando in Max sulle stesse 24 ore invece salta fuori un picco al 19,74%, probabilmente durante l'installazione di Nginx. Restringendo a Last hour il massimo scende a 3,26%, quindi quel picco era successo più di un'ora prima. Ho capito che una sola lettura non basta, cambiando intervallo e aggregazione la stessa metrica racconta cose diverse. Network In e Out restano bassi, solo il traffico dei test che ho fatto io
 
 ## VMSS / Autoscale
 
