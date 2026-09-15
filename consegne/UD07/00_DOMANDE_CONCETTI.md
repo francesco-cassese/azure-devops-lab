@@ -2,7 +2,7 @@
 
  1. **Domanda:** Perché `--query` è preferibile a cercare manualmente una stringa nell'output JSON?<br>
 
-**Risposta:** Perché `--query` ti permette di filtrare e farti restituire solo i campi dell'oggetto JSON che ti interessano.
+    **Risposta:** Perché `--query` ti permette di filtrare e farti restituire solo i campi dell'oggetto JSON che ti interessano.
 
 ---
 
