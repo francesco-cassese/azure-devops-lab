@@ -4,11 +4,11 @@
 
 | Campo | Risposta |
 |---|---|
-| prima esecuzione script | il resource group `rg-ud07-cli-test` non esisteva. Lo script ha scritto "Il Resource Group non esiste: lo creo." e l'ha creato in `westeurope`. Ho controllato con `az group show` che lo stato fosse `Succeeded` |
-| seconda esecuzione | ho rilanciato lo stesso script. Questa volta ha scritto "Il Resource Group esiste già: lo riutilizzo." e non ha creato un secondo gruppo, ha solo riaggiornato i tag |
-| comportamento idempotente | lo script prima controlla se il resource group esiste già (`az group exists`), e lo crea solo se manca. Così anche rieseguendolo più volte non si creano copie doppie e non si rischiano errori inutili |
-| esempio JMESPath | con `--query "{Name:name,Location:location,Provisioning:properties.provisioningState}"` ho visto solo i tre campi che mi servivano, invece di tutte le proprietà che `az group show` restituisce normalmente |
-| quando usare `tsv` | ho confrontato `--output tsv` (dà solo `rg-ud07-monitor`, senza virgolette) con `--output json` (dà `"rg-ud07-monitor"`, con le virgolette). Uso `tsv` quando mi serve un valore semplice da mettere subito in una variabile; `table`/`json` quando devo solo leggere l'output io |
+| prima esecuzione script | il gruppo `rg-ud07-cli-test` non c'era ancora. Lo script ha scritto "Il Resource Group non esiste: lo creo." e l'ha creato in `westeurope`. Ho controllato con `az group show` ed era `Succeeded` |
+| seconda esecuzione | l'ho rilanciato e stavolta ha detto "esiste già: lo riutilizzo", senza crearne un secondo, ha solo riaggiornato i tag |
+| comportamento idempotente | lo script controlla prima se il gruppo c'è già con `az group exists`, e lo crea solo se manca. Così anche rilanciandolo più volte non si creano copie doppie o errori inutili |
+| esempio JMESPath | con quella query ho visto solo i 3 campi che mi servivano, non tutte le proprietà che dà normalmente `az group show` |
+| quando usare `tsv` | `tsv` mi dà solo il valore, senza virgolette: utile quando lo devo mettere subito in una variabile. `table`/`json` li uso quando devo solo leggere io |
 
 ## PowerShell
 
@@ -16,25 +16,25 @@
 |---|---|
 | `Get-AzContext` verificato | sì, prima di creare qualsiasi risorsa, senza scrivere ID nella consegna |
 | Resource Group test | `rg-ud07-ps-test` (`westeurope`) |
-| prima esecuzione | `Get-AzResourceGroup` non ha trovato il gruppo, quindi `New-AzResourceGroup` l'ha creato. `Update-AzTag` ha aggiunto i tag. Stato finale: `Succeeded` |
+| prima esecuzione | `Get-AzResourceGroup` non l'ha trovato, quindi `New-AzResourceGroup` l'ha creato. `Update-AzTag` ha aggiunto i tag. Stato finale: `Succeeded` |
 | seconda esecuzione | stesso identico output della prima volta, nessun secondo gruppo creato |
-| perché il controllo `if` è utile | senza quel controllo lo script proverebbe sempre a creare il resource group, anche quando esiste già. Con `if (-not $rg)` lo crea solo se manca davvero |
+| perché il controllo `if` è utile | senza quel controllo lo script proverebbe sempre a creare il gruppo, anche quando esiste già. Con `if (-not $rg)` lo crea solo se manca davvero |
 
 ## Log Analytics
 
 | Campo | Risposta |
 |---|---|
-| workspace | `law-ud07-8629`, creato con `az monitor log-analytics workspace create`. La prima volta la CLI ha dovuto registrare da sola il resource provider `Microsoft.OperationalInsights`, perché non era ancora attivo sulla sottoscrizione |
-| regione | `westeurope` non ha funzionato ("currently not accepting new customers", stesso problema già visto in UD06). Ho usato `northeurope`, come indicato dalla guida, e questa volta è andata bene. Il workspace è quindi in una regione diversa dal resource group principale, ma va bene: un resource group può contenere risorse di regioni diverse |
-| query `print` | ho dovuto prima installare l'estensione CLI `log-analytics` (me lo ha chiesto la CLI stessa). Poi `print Course='AZ-104', UD=7, Status='OK'` ha funzionato subito, senza bisogno di dati già raccolti: serve solo a controllare che login, workspace e motore KQL funzionino |
-| query `datatable` | la query con `datatable` e `summarize Count=count() by Status` ha raggruppato correttamente i 3 record finti per stato: 2 righe `OK`, 1 riga `WARN` |
-| risultato sintetico | entrambe le query hanno funzionato senza aspettare log reali, quindi il workspace e il motore di query vanno bene. I log veri (Activity Log) li controllo nei prossimi passi |
+| workspace | `law-ud07-8629`. La CLI ha dovuto registrare da sola il resource provider `Microsoft.OperationalInsights`, perché non era ancora attivo sulla sottoscrizione |
+| regione | `westeurope` non ha funzionato (stesso problema già visto in UD06). Ho usato `northeurope`, come dice la guida, ed è andata bene. Il workspace quindi è in una regione diversa dal resource group principale, ma va bene lo stesso: sono cose separate |
+| query `print` | ho dovuto prima installare l'estensione `log-analytics` (me l'ha chiesta la CLI stessa). Poi la query ha funzionato subito, senza dati già raccolti: serve solo a controllare che login, workspace e motore KQL funzionino |
+| query `datatable` | la query con `summarize Count=count() by Status` ha raggruppato i 3 record finti per stato: 2 righe `OK`, 1 riga `WARN` |
+| risultato sintetico | entrambe le query hanno funzionato senza aspettare log reali, quindi il workspace va bene. I log veri li ho controllati dopo |
 
 ## Activity Log
 
 | Campo | Risposta |
 |---|---|
-| evento osservato | "Update resource group", dopo aver modificato il tag `LastChange=UD07` su `$LAB_RG` con `az group update` |
+| evento osservato | "Update resource group", dopo aver cambiato il tag `LastChange=UD07` su `$LAB_RG` |
 | status | Succeeded |
 | timestamp | 2026-09-15T14:59:27Z |
 | dati personali omessi | sì, non ho riportato il `Caller` |
@@ -44,8 +44,8 @@
 | Campo | Risposta |
 |---|---|
 | esito | l'ho creata dal Portale, sotto Monitor → Activity log → Export Activity Logs. Poi ho controllato da CLI che esistesse davvero |
-| destinazione | il workspace `law-ud07-8629`, nel resource group `rg-ud07-monitor` (ho tolto il subscription ID dall'ID completo prima di scriverlo qui) |
-| AzureActivity disponibile | AzureActivity non ancora popolata nel time range osservato. Ho già verificato separatamente il workspace (query sintetiche) e l'Activity Log diretto, quindi non è il workspace a essere guasto: è solo la latenza di ingestion |
+| destinazione | il workspace `law-ud07-8629`, nel resource group `rg-ud07-monitor` (ho tolto il subscription ID prima di scriverlo qui) |
+| AzureActivity disponibile | AzureActivity non ancora popolata nel time range osservato. Ho già verificato separatamente il workspace e l'Activity Log diretto, quindi non è il workspace a essere guasto: è solo la latenza di ingestion |
 | fallback usato, se necessario | non mi è servito, la creazione dal Portale è andata bene al primo tentativo |
 
 ## Metrics
@@ -74,16 +74,16 @@
 
 | Campo | Risposta |
 |---|---|
-| modifica osservata | ho cambiato il tag `State` dello storage account in `Changed` con `az storage account update` |
-| evento Activity Log | "Create/Update Storage Account", Succeeded, alle 16:25:22. La prima volta che ho controllato l'evento non c'era ancora (stesso ritardo già visto con l'Activity Log del resource group), riprovando dopo qualche minuto è comparso |
+| modifica osservata | ho cambiato il tag `State` dello storage account in `Changed` |
+| evento Activity Log | "Create/Update Storage Account", Succeeded, alle 16:25:22. La prima volta l'evento non c'era ancora, riprovando dopo qualche minuto è comparso |
 | la correlazione prova causalità? | no |
-| motivazione | ho fatto la modifica e poco dopo è comparso un evento con lo stesso nome ("Create/Update Storage Account"). Sembra collegato, ma non è una prova sicura: l'evento non dice cosa è cambiato davvero, solo che è stata fatta una scrittura sulla risorsa. In più ho visto due eventi simili vicini nel tempo, quindi non posso essere certo al 100% che sia proprio quello del mio tag e non un altro |
+| motivazione | ho fatto la modifica e poco dopo è comparso un evento con lo stesso nome. Sembra collegato, ma non è una prova sicura: l'evento non dice cosa è cambiato davvero, solo che è stata fatta una scrittura sulla risorsa. Ho visto anche due eventi simili vicini, quindi non posso essere certo al 100% che sia proprio quello del mio tag |
 
 ## Cleanup
 
 | Campo | Risposta |
 |---|---|
-| diagnostic setting rimossa | sì, `ud07-activity-to-law` eliminata con `az monitor diagnostic-settings subscription delete` |
+| diagnostic setting rimossa | sì, `ud07-activity-to-law` |
 | RG CLI test eliminato | sì, `rg-ud07-cli-test`, confermato con `az group exists` → `false` |
-| RG PowerShell test eliminato | sì, `rg-ud07-ps-test`, rimosso con `Remove-AzResourceGroup -Force` da Cloud Shell |
-| RG principale eliminato | rimandato di proposito: il laboratorio autonomo (Attività 4, 5, 6) riusa lo stesso workspace, storage account e alert rule creati qui. Lo elimino solo dopo aver fatto anche l'autonomo e la verifica finale, come dice esplicitamente la consegna dell'autonomo |
+| RG PowerShell test eliminato | sì, `rg-ud07-ps-test`, rimosso da Cloud Shell |
+| RG principale eliminato | non ancora, di proposito: il laboratorio autonomo riusa lo stesso workspace, storage account e alert rule creati qui. Lo elimino solo dopo aver fatto anche l'autonomo e la verifica finale |
