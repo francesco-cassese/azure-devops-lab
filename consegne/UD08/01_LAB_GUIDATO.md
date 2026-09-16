@@ -2,7 +2,7 @@
 
 ## Repository
 
-| Campo | Risposta |
+| Elemento | Valore |
 |---|---|
 | repository | `francesco-cassese/azure-devops-lab` |
 | branch principale | `main` |
@@ -11,7 +11,7 @@
 
 ## Collaborazione ricevuta sul mio repository
 
-| Campo | Risposta |
+| Passaggio | Dettaglio |
 |---|---|
 | collaborator | `francescocassese26`, un secondo account mio creato apposta per simulare la collaborazione, dato che in quel momento non avevo un compagno di corso disponibile — il tutor mi ha detto che andava bene così |
 | invito accettato | sì |
@@ -26,7 +26,7 @@
 
 ## Collaborazione eseguita sul repository altrui
 
-| Campo | Risposta |
+| Passaggio | Dettaglio |
 |---|---|
 | repository | `francescocassese26/azure-devops-lab`, un fork del mio repository — B non aveva un repository suo dalle UD precedenti, quindi il fork è stato il modo più veloce per dargli comunque un repository vero su cui provare la collaborazione |
 | branch | `feature/ud08-collab-francesco-cassese` |
@@ -37,7 +37,7 @@
 
 ## Conflitto locale
 
-| Campo | Risposta |
+| Elemento | Valore |
 |---|---|
 | branch A | `lab/conflict-a`, `PORT=9000` |
 | branch B | `lab/conflict-b`, `PORT=7000` |
@@ -49,7 +49,7 @@
 
 ## Catalogo prodotti
 
-| Campo | Risposta |
+| Test | Esito |
 |---|---|
 | server avviato | sì, "Catalogo prodotti in ascolto su http://127.0.0.1:8000" |
 | `/health` | 200, `{"status":"ok","service":"catalogo-prodotti","version":"1.0"}` |
@@ -61,7 +61,7 @@
 
 ## Architettura
 
-| Campo | Risposta |
+| Componente | File |
 |---|---|
 | frontend | `static/index.html` |
 | backend/API | `server.py` |
@@ -71,7 +71,7 @@
 
 ## Baseline Git
 
-| Campo | Risposta |
+| Elemento | Valore |
 |---|---|
 | commit | `7e5403f`, "feat: add local product catalog" |
 | push/PR | ho pushato direttamente su `main`, niente PR: è il mio repository personale e `main` non ha nessuna protezione |
