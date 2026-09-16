@@ -45,13 +45,13 @@
 
 ---
 
-8. **Domande:** Che cosa provoca tipicamente un merge conflict? 
+8. **Domanda:** Che cosa provoca tipicamente un merge conflict? 
 
     **Risposta:** Quando il mio branch non è in linea con il main, e mentre io effettuavo modifiche sul mio branch un altro collaboratore ha già pushato modifiche sullo stesso pezzo di codice.
 
 ---
 
-9. **Domande:** Perché l'accesso del collaboratore deve essere rimosso al termine?
+9. **Domanda:** Perché l'accesso del collaboratore deve essere rimosso al termine?
 
     **Risposta:** perchè secondo il principio di **least privilege** gli diamo l'accesso solo per il tempo necessario, così riduciamo il rischio che vengano effettuate modifiche a nostra insaputa anche dopo.
 
