@@ -13,7 +13,7 @@
 
 | Passaggio | Dettaglio |
 |---|---|
-| collaborator | `francescocassese26`, un secondo account mio creato apposta per simulare la collaborazione, dato che in quel momento non avevo un compagno di corso disponibile — il tutor mi ha detto che andava bene così |
+| collaborator | `francescocassese26`, un secondo account mio creato apposta per simulare la collaborazione |
 | invito accettato | sì |
 | branch contributor | `feature/ud08-collab-francescocassese26` |
 | PR | #1, https://github.com/francesco-cassese/azure-devops-lab/pull/1 |
