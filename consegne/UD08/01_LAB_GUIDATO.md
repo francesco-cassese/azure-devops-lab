@@ -28,7 +28,7 @@
 
 | Passaggio | Dettaglio |
 |---|---|
-| repository | `francescocassese26/azure-devops-lab`, un fork del mio repository — B non aveva un repository suo dalle UD precedenti, quindi il fork è stato il modo più veloce per dargli comunque un repository vero su cui provare la collaborazione |
+| repository | `francescocassese26/azure-devops-lab`, un fork del mio repository, perché B non aveva un repository suo dalle UD precedenti, quindi il fork è stato il modo più veloce per dargli comunque un repository vero su cui provare la collaborazione |
 | branch | `feature/ud08-collab-francesco-cassese` |
 | PR | #1, https://github.com/francescocassese26/azure-devops-lab/pull/1 |
 | prima review ricevuta | Request changes, "Aggiungi in fondo la riga: Direzione inversa completata." |

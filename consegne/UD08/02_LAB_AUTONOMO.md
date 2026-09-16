@@ -14,14 +14,14 @@
 | configurazione modificata | `api_prefix` in `config.json`, cambiato da `/api` a `/api-v2` |
 | endpoint funzionante | `/api-v2/products` → 200 |
 | endpoint non funzionante | `/api/products` → 404 (quello generico "file not found" del server, non il 404 dell'app) |
-| comportamento frontend | tabella vuota e "Errore: HTTP 404" a schermo — il JS chiama `fetch("/api/products")` fisso, non legge `config.json` |
+| comportamento frontend | tabella vuota e "Errore: HTTP 404" a schermo, perché il JS chiama `fetch("/api/products")` fisso, non legge `config.json` |
 
 ## Diagnosi
 
 | Domanda | Risposta |
 |---|---|
 | il backend è avviato? | sì |
-| `/health` funziona? | sì, sempre — non dipende dal prefisso API, è un path fisso |
+| `/health` funziona? | sì, sempre, non dipende dal prefisso API, è un path fisso |
 | quale endpoint prodotti funziona? | `/api-v2/products` |
 | quale endpoint usa il frontend? | `/api/products`, scritto fisso nel JS di `index.html` |
 | rete, backend spento o contratto incoerente? | contratto/configurazione incoerente tra frontend e backend |
@@ -32,7 +32,7 @@
 |---|---|
 | causa | `api_prefix` cambiato in `config.json`, ma il frontend continua a chiamare `/api` per conto suo |
 | fix | rimesso `"api_prefix": "/api"` |
-| environment aggiunto | sì, `"environment": "local"` — serviva perché il solo fix riportava il file identico a `main`, senza niente da committare |
+| environment aggiunto | sì, `"environment": "local"`, serviva perché il solo fix riportava il file identico a `main`, senza niente da committare |
 
 ## Test finali
 
