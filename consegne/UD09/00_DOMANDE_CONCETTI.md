@@ -119,3 +119,124 @@
     **Risposta:** significa scrivere un file di testo che descrive l'infrastruttura che vuoi creare, tipo una VM o una rete, invece di crearla a mano cliccando nel portale Azure. Quel file lo salvi con Git come il codice, così sai chi l'ha scritto e quando, e se ti serve la stessa infrastruttura da un'altra parte basta rieseguirlo invece di rifare tutti i click a mano.
 
 ---
+
+21. **Domanda:** Che cosa aggiunge DevSecOps al lifecycle?
+
+    **Risposta:** integra la sicurezza dentro tutto il lifecycle, non solo come ultimo controllo prima del rilascio. Per esempio dare solo i permessi che servono, non lasciare token nei repository, controllare le dipendenze prima di usarle.
+
+---
+
+22. **Domanda:** Che cos'è una DevOps toolchain?
+
+    **Risposta:** è un insieme coordinato di strumenti usati lungo il lifecycle, non uno strumento singolo che fa tutto da solo. Un esempio possibile è Azure Boards per il planning, GitHub per il codice, Azure Pipelines per il Continuous Integration, Docker per i container, Azure Container Registry, Bicep e Terraform per l'infrastruttura, Azure Container Apps e Azure Monitor. È solo una delle combinazioni possibili, non l'unica.
+
+---
+
+23. **Domanda:** Quali sono i cinque principali servizi Azure DevOps?
+
+    **Risposta:** Azure Boards, Azure Repos, Azure Pipelines, Azure Test Plans, Azure Artifacts.
+
+---
+
+24. **Domanda:** A che cosa serve Azure Boards?
+
+    **Risposta:** serve per il planning e il tracking del lavoro, offre Work Items, Backlogs, Boards, Sprints, Queries e Dashboards. Supporta diversi processi, tipo Basic, Agile, Scrum e CMMI, e la scelta del processo determina i tipi di Work Item e il workflow disponibili.
+
+---
+
+25. **Domanda:** Perché nel corso usiamo GitHub invece di Azure Repos?
+
+    **Risposta:** per evitare di duplicare lo stesso codice in due sistemi diversi e rischiare che le due copie si disallineino nel tempo.
+
+---
+
+26. **Domanda:** Distingui Azure Test Plans e test automatici in pipeline.
+
+    **Risposta:** Azure Test Plans gestisce test manuali ed esplorativi, cioè Test Plan, Test Suite, Test Case, esecuzioni e risultati fatti da una persona. I test automatici invece sono eseguiti senza intervento umano da una pipeline, tipo Azure Pipelines.
+
+---
+
+27. **Domanda:** Distingui Azure Artifacts e Azure Container Registry.
+
+    **Risposta:** Azure Artifacts gestisce pacchetti di libreria, tipo NuGet, npm, Maven o Python. Azure Container Registry invece gestisce le image dei container Docker. Sono due registri diversi, uno per pacchetti software, l'altro per image.
+
+---
+
+28. **Domanda:** Distingui Organization e Project.
+
+    **Risposta:** l'Organization è il livello amministrativo più alto e può contenere più Project al suo interno, con elementi condivisi tra tutti come utenti, fatturazione e Agent Pool. Il Project è invece lo spazio di lavoro di un singolo progetto, con Boards, Repos, Pipelines, Test Plans, Artifacts e permessi propri, distinti da quelli degli altri Project nella stessa Organization.
+
+---
+
+29. **Domanda:** Distingui Agent, Agent Pool e Parallel Job.
+
+    **Risposta:** l'Agent è il processo o la macchina che esegue davvero un Job. L'Agent Pool è il gruppo di agent tra cui una pipeline può scegliere quello disponibile. Il Parallel Job è la capacità di eseguire più job insieme nello stesso momento, ed è un numero separato dagli agent registrati: avere più agent non aumenta da solo la concorrenza, serve anche una capacità di Parallel Job sufficiente.
+
+---
+
+30. **Domanda:** Distingui Microsoft-hosted e self-hosted Agent.
+
+    **Risposta:** il **Microsoft-hosted** è preparato e gestito da Microsoft, con un ambiente nuovo e pulito a ogni Job, tool già installati e nessuna manutenzione da parte tua, ma l'ambiente sparisce alla fine del Job. Il **self-hosted** gira su una macchina che gestisci tu, l'ambiente resta persistente tra un Job e l'altro e hai il controllo sui tool installati, ma anche la responsabilità di patch, sicurezza e manutenzione.
+
+---
+
+31. **Domanda:** Che cos'è una Service Connection?
+
+    **Risposta:** è un collegamento autenticato tra Azure DevOps e un sistema esterno, tipo GitHub, Azure Resource Manager o un container registry. Che la connessione esista non significa che qualsiasi pipeline possa usarla automaticamente, per questo di solito si evita di concederla a tutte le pipeline insieme.
+
+---
+
+32. **Domanda:** Perché il PAT di registrazione può essere revocato dopo che l'agent è Online?
+
+    **Risposta:** perché serve solo alla registrazione iniziale dell'agent, non viene usato per i Job successivi. Una volta registrato e avviato, l'agent comunica in un altro modo, per questo il PAT può essere revocato senza che l'agent smetta di funzionare.
+
+---
+
+33. **Domanda:** Perché DevOps non coincide con Azure DevOps?
+
+    **Risposta:** perché le pratiche DevOps non appartengono a un solo produttore. Concetti come Version Control, Continuous Integration, pipeline, artifact, Continuous Delivery e Infrastructure as Code si possono realizzare con strumenti diversi, Azure DevOps è solo una delle piattaforme possibili per farlo.
+
+---
+
+34. **Domanda:** Qual è la differenza tra Azure Pipelines e Azure Pipelines Agent?
+
+    **Risposta:** **Azure Pipelines** è il servizio che organizza il lavoro, cioè decide cosa fare e quando. L'**Azure Pipelines Agent** è chi esegue davvero i Job. Sono due cose diverse: uno organizza, l'altro fa il lavoro materiale.
+
+---
+
+35. **Domanda:** Qual è la relazione concettuale tra Azure Pipelines Agent, Jenkins Agent, GitHub Runner e GitLab Runner?
+
+    **Risposta:** fanno tutti la stessa cosa, ognuno per la propria piattaforma (Azure Pipelines, Jenkins, GitHub Actions, GitLab CI/CD): ricevono ed eseguono i Job che la pipeline gli assegna. Confrontare uno di questi con la piattaforma di un'altra, tipo Jenkins Agent contro Azure Pipelines, sarebbe come confrontare due cose che non stanno sullo stesso piano.
+
+---
+
+36. **Domanda:** Quali attività svolgerà concretamente l'Agent nelle UD13–UD15?
+
+    **Risposta:** esegue validazioni IaC e i primi Job di pipeline, poi test, build e push dell'immagine Docker, e infine il deployment con le verifiche e lo smoke test della pipeline completa.
+
+---
+
+37. **Domanda:** Perché un Job Microsoft-hosted non dovrebbe dipendere da file lasciati dal Job precedente?
+
+    **Risposta:** perché l'ambiente hosted viene ricreato pulito a ogni Job, quindi qualsiasi file lasciato lì da un Job precedente sparisce insieme all'ambiente. Un Job che si aspettasse di trovarlo fallirebbe in modo imprevedibile.
+
+---
+
+38. **Domanda:** Perché il WSL2 personale del corso non rappresenta la topologia self-hosted tipica di un team?
+
+    **Risposta:** perché è una simulazione didattica, non vuol dire che ogni sviluppatore trasformi il proprio PC nel server di compilazione del team. In un'organizzazione reale gli sviluppatori fanno solo commit e push, e chi esegue davvero i Job è un **Agent Pool** aziendale gestito centralmente, con macchine dedicate come VM in cloud o server on-premises, non il computer personale di ciascuno.
+
+---
+
+39. **Domanda:** Come può essere organizzato un Agent Pool aziendale?
+
+    **Risposta:** con più agent dedicati, tipo build-agent-01, build-agent-02, build-agent-03, che possono girare su VM Linux o Windows in cloud, VM on-premises o server fisici. La cosa decisiva non è dove si trova la macchina, ma chi la gestisce: un self-hosted Agent aziendale è infrastruttura gestita dall'organizzazione, non il PC di un singolo sviluppatore. Gli Agent Pool possono anche essere condivisi tra più progetti, in base ai permessi.
+
+---
+
+40. **Domanda:** Perché più Agent non implicano automaticamente più Job eseguibili in parallelo?
+
+    **Risposta:** perché sono due cose diverse: 
+    l'**Agent** è chi esegue il Job, il **Parallel Job** è quanti Job possono girare insieme nello stesso momento. Con 3 agent Online ma solo 1 parallel job, normalmente ne gira comunque 1 alla volta. Per avere più Job contemporanei servono sia più agent disponibili sia una capacità di Parallel Job sufficiente.
+
+---
