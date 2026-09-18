@@ -87,4 +87,4 @@
 | Campo | Valore |
 |---|---|
 | commit | `007a4b9`, "feat: containerize product catalog with Docker Compose", 12 file cambiati |
-| push/PR | push diretto su main riuscito, `2fe5d58..007a4b9`, nessuna branch protection attiva su questo repo |
+| push/PR | ho pushato direttamente su `main`|
