@@ -91,50 +91,97 @@ Rispondere dopo avere studiato `00_CONCETTI.md`. Non limitarsi a definizioni di 
 
     **Risposta:** Controlla il codice bicep prima del deploy ed individua eventuali errori, lo usiamo prima così evitiamo di perdere tempo con un deploy che fallirebbe.
 
-## 16.
-**Risposta:**
+---
 
-## 17.
-**Risposta:**
+16. **Domanda:** Che cosa fa What-If?
 
-## 18.
-**Risposta:**
+    **Risposta:** Chiede ad Azure Resource Manager di prevedere cosa cambierebbe applicando il deployment, confrontando le risorse che esistono già con quello che il template descrive. Restituisce un elenco delle operazioni previste, per esempio "Create" per una risorsa nuova, senza eseguire nulla di reale.
 
-## 19.
-**Risposta:**
+---
 
-## 20.
-**Risposta:**
+17. **Domanda:** What-If crea realmente le risorse?
 
-## 21.
-**Risposta:**
+    **Risposta:** No, non crea niente. Mostra solo la previsione di quello che succederebbe se eseguissi davvero il deployment con `az deployment group create`.
 
-## 22.
-**Risposta:**
+---
 
-## 23.
-**Risposta:**
+18. **Domanda:** Qual è la differenza tra What-If e deployment `create`?
 
-## 24.
-**Risposta:**
+    **Risposta:** What-If è solo un'anteprima, analizza il template e mostra le modifiche previste senza toccare Azure. `create` invece esegue il deployment sul serio e crea o modifica le risorse reali. Nel lab ho sempre lanciato What-If prima, per controllare che la previsione corrispondesse a quello che mi aspettavo, e solo dopo ho lanciato `create`.
 
-## 25.
-**Risposta:**
+---
 
-## 26.
-**Risposta:**
+19. **Domanda:** Perché Bicep non richiede un file equivalente a `terraform.tfstate`?
 
-## 27.
-**Risposta:**
+    **Risposta:** Perché con Bicep il deployment passa sempre attraverso Azure Resource Manager, che tiene lui lo stato reale delle risorse. Non serve un file locale che colleghi il codice alla risorsa, quella relazione la gestisce ARM stesso. Con Terraform invece serve un file separato, lo state, perché Terraform non fa parte di Azure e deve tenersi da solo quel collegamento.
 
-## 28.
-**Risposta:**
+---
 
-## 29.
-**Risposta:**
+20. **Domanda:** Che cos'è Terraform?
 
-## 30.
-**Risposta:**
+    **Risposta:** È uno strumento Infrastructure as Code dichiarativo come Bicep, ma a differenza di Bicep non nasce solo per Azure: può gestire più piattaforme diverse (Azure, AWS, GitHub, ecc.) grazie ai provider. Nel nostro caso usa il provider AzureRM per parlare con Azure.
+
+---
+
+21. **Domanda:** Perché Terraform usa provider?
+
+    **Risposta:** Perché Terraform Core da solo non contiene la logica di tutte le piattaforme che può gestire. I provider sono come degli adattatori specializzati: senza il provider AzureRM, per esempio, Terraform non saprebbe come creare o leggere un Resource Group o uno Storage Account su Azure.
+
+---
+
+22. **Domanda:** Che ruolo ha AzureRM?
+
+    **Risposta:** È il provider Terraform che sa parlare con Azure. Conosce i tipi di risorsa come `azurerm_resource_group` e `azurerm_storage_account`, e traduce quello che scrivo nei file `.tf` in richieste vere verso Azure Resource Manager.
+
+---
+
+23. **Domanda:** Che cosa contiene `versions.tf`?
+
+    **Risposta:** Dichiara quali versioni servono per far funzionare la configurazione: la versione minima di Terraform richiesta (`required_version`) e quale provider serve con quale vincolo di versione, nel mio caso `hashicorp/azurerm` con `~> 5.4`.
+
+---
+
+24. **Domanda:** A cosa serve `providers.tf`?
+
+    **Risposta:** Serve ad attivare e configurare il provider dichiarato in `versions.tf`. Nel mio file contiene solo `provider "azurerm" { features {} }`, e non ci scrivo nessuna password: le credenziali arrivano dall'ambiente in cui eseguo Terraform, non dal file.
+
+---
+
+25. **Domanda:** Perché credenziali e codice IaC devono restare separati?
+
+    **Risposta:** Perché il codice `.tf` finisce nel repository Git, quindi nella cronologia dei commit, e un secret scritto lì dentro ci resterebbe per sempre anche se lo tolgo più avanti. Nel lab infatti ho passato il Subscription ID con una variabile d'ambiente (`ARM_SUBSCRIPTION_ID`), non scritto in nessun file `.tf`.
+
+---
+
+26. **Domanda:** Che cosa contiene `variables.tf`?
+
+    **Risposta:** Dichiara i valori configurabili della configurazione, come `location` e `resource_group_name`, ognuno con un tipo e, se serve, un valore di default. `resource_group_name` per esempio ha come default `rg-ud12-tf`: se non passo un valore diverso, Terraform usa proprio quello.
+
+---
+
+27. **Domanda:** Che differenza c'è tra `azurerm_resource_group`, `lab`, `var.resource_group_name` e `rg-ud12-tf`?
+
+    **Risposta:** `azurerm_resource_group` è il tipo di risorsa Terraform. `lab` è il nome logico che ho dato io a quella risorsa dentro il codice, serve solo per riferirmi ad essa nel file. `var.resource_group_name` è la variabile da cui prendo il valore del nome reale. `rg-ud12-tf` è il nome vero che vedo su Azure, cioè il valore che quella variabile contiene.
+
+---
+
+28. **Domanda:** Nella riga `resource "azurerm_resource_group" "lab"`, che cos'è `lab`?
+
+    **Risposta:** È il nome logico interno che uso per riferirmi a questa risorsa dentro il codice Terraform, per esempio quando scrivo `azurerm_resource_group.lab.location` in un'altra risorsa. Non è il nome che il Resource Group avrà su Azure.
+
+---
+
+29. **Domanda:** Il Resource Group reale si chiamerà `lab`?
+
+    **Risposta:** No, il nome reale arriva dalla riga `name = var.resource_group_name`, che nel mio caso vale `rg-ud12-tf`. `lab` resta solo un riferimento interno al codice, non compare da nessuna parte su Azure.
+
+---
+
+30. **Domanda:** Da dove arriva il nome reale `rg-ud12-tf`?
+
+    **Risposta:** Dal valore di default della variabile `resource_group_name` in `variables.tf`. Se non passo un valore diverso al momento dell'esecuzione, Terraform usa proprio quel default per il campo `name` del Resource Group.
+
+---
 
 ## 31.
 **Risposta:**
