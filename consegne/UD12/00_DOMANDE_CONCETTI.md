@@ -183,39 +183,91 @@ Rispondere dopo avere studiato `00_CONCETTI.md`. Non limitarsi a definizioni di 
 
 ---
 
-## 31.
-**Risposta:**
+31. **Domanda:** Che cosa significa `azurerm_resource_group.lab.name`?
 
-## 32.
-**Risposta:**
+    **Risposta:** `azurerm_resource_group` indica il tipo di risorsa, `.lab` è il nome logico scelto nel codice Terraform per identificare quella risorsa, `.name` è l'attributo che restituisce il nome reale che ho dichiarato in `variables.tf` e che Azure userà davvero.
 
-## 33.
-**Risposta:**
+---
 
-## 34.
-**Risposta:**
+32. **Domanda:** Perché lo Storage Account usa `azurerm_resource_group.lab.name`?
 
-## 35.
-**Risposta:**
+    **Risposta:** Nel blocco dello Storage Account, `resource_group_name = azurerm_resource_group.lab.name` dice a Terraform di creare quella risorsa proprio dentro il Resource Group appena dichiarato.
 
-## 36.
-**Risposta:**
+---
 
-## 37.
-**Risposta:**
+33. **Domanda:**  Che cosa significa `azurerm_resource_group.lab.location`?
 
-## 38.
-**Risposta:**
+    **Risposta:** `azurerm_resource_group` indica il tipo di risorsa, `.lab` è il nome logico che abbiamo scelto all'interno del codice Terraform per identificare quella specifica risorsa. `.location` è l'attributo che restituisce la regione geografica (per esempio "italynorth") associata a quel gruppo di risorse.
 
-## 39.
-**Risposta:**
+---
 
-## 40.
-**Risposta:**
+34. **Domanda:** Perché Terraform può dedurre la dipendenza fra Resource Group e Storage Account?
 
-## 41.
-**Risposta:**
+    **Risposta:** Perché all'interno del blocco dello Storage Account facciamo riferimento esplicito a un attributo del Resource Group (tramite espressioni come `azurerm_resource_group.lab.name` o `.location`). Questo legame viene chiamato dipendenza implicita: Terraform legge il codice, capisce che lo Storage Account "ha bisogno" di quel dato per poter essere configurato, e crea automaticamente un ordine di esecuzione corretto (prima il Resource Group, poi lo Storage Account).
 
-## 42.
-**Risposta:**
+---
+
+35. **Domanda:** A cosa serve la validazione di `storage_account_name`?
+
+    **Risposta:** Prima di usare il valore, Terraform controlla che rispetti dei vincoli precisi: lunghezza tra 3 e 24 caratteri, solo lettere minuscole e numeri, tramite il blocco `validation` in `variables.tf`. Se scrivo un nome che non li rispetta, l'errore lo scopro subito con `terraform plan`, non a metà di un `apply` che fallisce su Azure per un nome non valido.
+
+---
+
+36. **Domanda:** A cosa servono gli output Terraform?
+
+    **Risposta:** Servono a esporre valori utili delle risorse gestite dopo l'esecuzione, per esempio `resource_group_name` e `storage_account_name` nel mio `outputs.tf`. Li leggo con `terraform output` dopo l'apply, e in una pipeline futura potrebbero diventare l'input di una fase successiva, esattamente come gli output Bicep.
+
+---
+
+37. **Domanda:** Che cosa fa `terraform init`?
+
+    **Risposta:** Prepara la directory di lavoro: legge quali provider servono, scarica AzureRM se non è già presente, e crea la cartella `.terraform/` e il file `.terraform.lock.hcl`. Non crea ancora nessuna risorsa su Azure, è solo il primo passo prima di poter usare `fmt`, `validate` e `plan`.
+
+---
+
+38. **Domanda:** Che differenza c'è tra `.terraform/` e `.terraform.lock.hcl`?
+
+    **Risposta:** `.terraform/` è una cartella locale con il materiale scaricato da Terraform, i binari dei provider: è solo cache di lavoro, pesante e rigenerabile in qualsiasi momento con un nuovo `init`, per questo l'ho messa nel `.gitignore`. `.terraform.lock.hcl` invece registra le versioni esatte dei provider selezionate: è piccolo ed è informazione di progetto, va committato insieme al resto del codice.
+
+---
+
+39. **Domanda:** Che cosa fa `terraform fmt`?
+
+    **Risposta:** Formatta i file `.tf` secondo lo stile standard di Terraform (indentazione, spaziatura), senza creare né modificare nessuna risorsa Azure. Con `terraform fmt -check` posso solo controllare se i file sono già formattati correttamente, senza cambiarli, utile anche dentro una pipeline CI.
+
+---
+
+40. **Domanda:** Che cosa fa `terraform validate`?
+
+    **Risposta:** Controlla che la configurazione sia sintatticamente corretta e coerente al suo interno, per esempio che ogni riferimento a un'altra risorsa esista davvero nel codice. Non guarda cosa c'è realmente su Azure e non garantisce che l'apply andrà a buon fine, quello lo verifica solo `plan`.
+
+---
+
+41. **Domanda:** Che cosa fa `terraform plan`?
+
+    **Risposta:** Confronta configurazione, state e ciò che il provider legge davvero da Azure, e calcola cosa dovrebbe creare, cambiare o distruggere per arrivare allo stato descritto nel codice, senza eseguire nulla per davvero. Nel primo plan del lab ho visto `Plan: 2 to add, 0 to change, 0 to destroy`, un Resource Group e uno Storage Account nuovi.
+
+---
+
+42. **Domanda:** Perché il piano va letto prima dell'apply?
+
+    **Risposta:** Perché solo leggendolo scopro se Terraform vuole fare esattamente quello che mi aspetto, oppure qualcosa di diverso, come mi è successo quando un cambio di regione ha forzato la ricreazione del Resource Group insieme allo Storage Account. Applicare senza aver letto il piano significa scoprire le conseguenze solo dopo, quando magari una risorsa è già stata distrutta.
+
+---
+
+43. **Domanda:** Perché nel LAB salviamo il piano in `ud12.tfplan`?
+
+    **Risposta:** Perché così l'apply successivo esegue esattamente le azioni già viste e controllate nel piano salvato, non un piano ricalcolato al momento. Se nel frattempo qualcosa fosse cambiato su Azure, `terraform apply ud12.tfplan` me lo segnalerebbe invece di applicare in silenzio un piano diverso da quello che ho controllato.
+
+---
+
+44. **Domanda:** Che cosa fa `terraform apply`?
+
+    **Risposta:** Esegue per davvero le azioni previste dal piano: crea, modifica o distrugge le risorse su Azure. Nel lab l'ho sempre lanciato passando il file di piano già salvato (`terraform apply ud12.tfplan` o `ud12-change.tfplan`), mai senza argomenti, così sono sicuro di applicare esattamente quello che avevo già letto.
+
+---
+
+45. **Domanda:** Che cos'è lo state Terraform?
+
+    **Risposta:** È il file (`terraform.tfstate` nel mio caso, locale) che mantiene il collegamento tra gli oggetti dichiarati nel codice, per esempio `azurerm_storage_account.lab`, e le risorse reali che Terraform sta gestendo su Azure, per esempio `stud12t90072691`. Senza lo state, alla prossima esecuzione Terraform non saprebbe più se quella risorsa esiste già o va creata da capo.
 
