@@ -271,3 +271,110 @@ Rispondere dopo avere studiato `00_CONCETTI.md`. Non limitarsi a definizioni di 
 
     **Risposta:** È il file (`terraform.tfstate` nel mio caso, locale) che mantiene il collegamento tra gli oggetti dichiarati nel codice, per esempio `azurerm_storage_account.lab`, e le risorse reali che Terraform sta gestendo su Azure, per esempio `stud12t90072691`. Senza lo state, alla prossima esecuzione Terraform non saprebbe più se quella risorsa esiste già o va creata da capo.
 
+---
+
+46. **Domanda:** Quale relazione mantiene lo state?
+
+    **Risposta:** Mantiene la relazione tra l'oggetto dichiarato nel codice e la risorsa reale che Terraform sta gestendo su Azure, insieme a informazioni come id, proprietà e metadati di quella risorsa.
+
+---
+
+47. **Domanda:** Perché `terraform.tfstate` non va trattato come normale codice sorgente?
+
+    **Risposta:** Perché non è solo testo che descrive un'intenzione, come i file `.tf`, è la fotografia delle risorse reali già create: contiene id, proprietà e a volte anche valori sensibili. Va protetto e gestito con attenzione, non versionato come un file di progetto qualsiasi.
+
+---
+
+48. **Domanda:** Che cosa mostra `terraform state list`?
+
+    **Risposta:** Mostra l'elenco degli oggetti che la configurazione corrente sta gestendo tramite il proprio state, per esempio nel mio lab `azurerm_resource_group.lab` e `azurerm_storage_account.lab`.
+
+---
+
+49. **Domanda:** `terraform state list` mostra tutte le risorse della Subscription?
+
+    **Risposta:** No. Mostra solo le risorse che questa specifica configurazione Terraform sta gestendo attraverso il suo state, non tutto quello che esiste nella subscription Azure, anche se ci fossero altre risorse create in altri modi.
+
+---
+
+50. **Domanda:** `terraform destroy` elimina anche i file `.tf`?
+
+    **Risposta:** No, elimina solo le risorse Azure gestite dallo state. I file `main.tf`, `variables.tf`, `outputs.tf`, `providers.tf` e `versions.tf` restano nel repository.
+
+---
+
+51. **Domanda:** Qual è la differenza principale nel percorso Bicep→Azure rispetto a Terraform→Azure?
+
+    **Risposta:** Con Bicep il percorso è `main.bicep → Azure Resource Manager → risorse`, e lo stato reale resta tutto dentro Azure, non devo gestire niente in locale. Con Terraform il percorso è `file .tf → Terraform → state → provider → risorse`, e serve un file di state locale che devo gestire io, perché Terraform non fa parte di Azure e deve tenersi da solo il collegamento con le risorse reali.
+
+---
+
+52. **Domanda:** In che cosa What-If e Plan sono simili?
+
+    **Risposta:** Hanno lo stesso obiettivo: farmi vedere le modifiche previste prima di applicarle davvero, così posso controllare il cambiamento prima di renderlo reale invece di scoprirlo solo dopo.
+
+---
+
+53. **Domanda:** Perché non sono lo stesso meccanismo?
+
+    **Risposta:** Perché What-If appartiene ad Azure Resource Manager e lavora confrontando il template con lo stato reale delle risorse su Azure, mentre `terraform plan` appartiene al modello Terraform e lavora insieme a configurazione, state locale e provider: due strumenti diversi, con un'architettura diversa dietro, anche se il risultato visibile sembra simile.
+
+---
+
+54. **Domanda:** In quale tipo di organizzazione Bicep può essere particolarmente naturale?
+
+    **Risposta:** In un'azienda che lavora quasi interamente su Azure (Azure, Entra ID, Azure Resource Manager, Azure DevOps), perché Bicep è fortemente integrato in quell'ecosistema.
+
+---
+
+55. **Domanda:** In quale tipo di organizzazione Terraform può essere particolarmente naturale?
+
+    **Risposta:** In un'azienda che usa più piattaforme diverse insieme, per esempio Azure, AWS, GitHub, Cloudflare, perché Terraform usa provider differenti mantenendo lo stesso modello di lavoro su tutte. Ha senso anche in un'azienda solo Azure che però ha già moduli, pipeline e competenze consolidate su Terraform.
+
+---
+
+56. **Domanda:** Perché non ha senso dire in assoluto che uno dei due è sempre migliore?
+
+    **Risposta:** Perché la scelta giusta dipende dalle piattaforme, dagli standard e dalle competenze già presenti nell'organizzazione, non da una qualità  dello strumento. La domanda corretta non è "qual è il migliore" ma "quale è più adatto a questo contesto".
+
+---
+
+57. **Domanda:** Perché i file IaC devono rimanere nel repository?
+
+    **Risposta:** Perché descrivono l'infrastruttura in modo ripetibile, tracciabile e revisionabile: posso confrontarli con `git diff`, sottoporli a Pull Request, versionarli e riusarli in futuro. Senza il codice nel repository perderei tutto questo e dovrei ricostruire l'infrastruttura solo dalla memoria di cosa avevo fatto.
+
+---
+
+58. **Domanda:** Le directory `infra/bicep/` e `infra/terraform/` verranno ricreate da zero in UD13?
+
+    **Risposta:** No, restano quelle di UD12 e vengono estese con nuovi file: per esempio in UD13 mi aspetto un file in più come `network.tf` accanto a quelli già scritti in UD12, non una cartella nuova.
+
+---
+
+59. **Domanda:** Perché installare Terraform nel WSL2 è utile per le UD successive?
+
+    **Risposta:** Perché il self-hosted Agent gira proprio dentro il mio WSL2, che è una macchina persistente: tutto quello che installo lì resta disponibile per l'Agent finché non lo rimuovo, quindi installare Terraform ora prepara concretamente le pipeline che lo useranno nelle prossime UD.
+
+---
+
+60. **Domanda:** Su quale componente vengono realmente eseguiti i comandi di una pipeline?
+
+    **Risposta:** Sull'Agent, cioè sulla macchina che riceve il Job dalla pipeline ed esegue davvero i comandi con i programmi installati su di essa. Il percorso è Pipeline → Job → Agent → programma installato sull'Agent.
+
+---
+
+61. **Domanda:** Che cosa rappresenta il WSL2 del partecipante nel modello self-hosted?
+
+    **Risposta:** Rappresenta un pezzetto di infrastruttura aziendale, non il mio PC personale: è la macchina che resta sempre accesa e configurata per l'Agent, collegata al pool `pool-ud09-wsl`. In un'azienda vera ci sarebbero più macchine così, dedicate solo a far girare le pipeline, non i computer di ogni sviluppatore.
+
+---
+
+62. **Domanda:** Qual è la differenza principale fra persistenza self-hosted e ambiente Microsoft-hosted?
+
+    **Risposta:** Il self-hosted resta sempre la stessa macchina: quello che installo oggi (Terraform, Bicep, Docker) c'è ancora domani, ma tocca a me tenerlo aggiornato e sotto controllo. Il Microsoft-hosted invece mi dà una macchina nuova ad ogni Job, quindi non devo pensare a nessuna manutenzione, ma non posso dare per scontato niente di installato prima: deve procurarsi da sola gli strumenti che le servono.
+
+---
+
+63. **Domanda:** Perché eliminare le risorse Azure non significa eliminare il codice IaC?
+
+    **Risposta:** Perché sono due cose con cicli di vita diversi: le risorse Azure del lab servono solo per esercitarmi e posso eliminarle quando non servono più, mentre il codice IaC nel repository ha un ciclo di vita molto più lungo, resta e viene riusato ed esteso nelle prossime UD. Distruggere le risorse senza toccare il codice è proprio il senso di avere l'infrastruttura descritta a parte invece che solo dentro al Portale.
