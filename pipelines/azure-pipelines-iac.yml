@@ -8,7 +8,7 @@ pool:
 variables:
   azureServiceConnection: 'sc-azure-ud13-15'
   deliveryResourceGroup: 'rg-ud13-15-delivery'
-  location: 'westeurope'
+  location: 'italynorth'
 
 stages:
 
