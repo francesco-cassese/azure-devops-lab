@@ -98,7 +98,7 @@
 
 17. **Domanda:** Che cosa dimostra il test failure intenzionale del laboratorio autonomo?
 
-    **Risposta:**
+    **Risposta:** Dimostra che la CI ferma una modifica incoerente: ho cambiato l'app in `ci-v2` senza aggiornare il test, e in locale `test_health_version` è fallito con `'ci-v2' != 'ci-v1'`. Lo stesso test rosso in pipeline fermerebbe lo stage Test, quindi BuildPush non partirebbe e non verrebbe costruita né pubblicata nessuna immagine. Dimostra anche il limite della CI: la pipeline non sa se il software è giusto in assoluto, esegue solo i controlli che ho scritto. Dopo aver allineato il test i 3 test sono passati e la CI ha prodotto il tag 14.
 
 ---
 
