@@ -118,10 +118,10 @@
 
 | Campo | Valore |
 |---|---|
-| pipeline Terraform destroy | |
-| Container App rimossa | |
-| Environment rimosso | |
-| Resource Group eliminato | |
-| service connection rimosse | |
-| Agent deregistrato | |
-| repository conservato | |
+| pipeline Terraform destroy | Pipeline `azure-devops-lab-cleanup`, run verde di circa 13 minuti. Il piano diceva `Plan: 0 to add, 0 to change, 2 to destroy.`, cioè le due risorse dello state UD15 |
+| Container App rimossa | Sì, il log della run dice `Destruction complete after 11s` |
+| Environment rimosso | Sì, ma ci ha messo di più: mentre aspettavo era in `ScheduledForDelete` e la run è finita solo dopo circa 13 minuti |
+| Resource Group eliminato | Sì, `az group delete --name rg-ud13-15-delivery --yes`. Poi `az group exists` con il nome scritto per intero ha risposto `false` |
+| service connection rimosse | `sc-azure-ud13-15` e `sc-acr-ud14`. Da terminale resta solo la connessione GitHub, che ho tenuto. `sc-acr-ud14` per un po' sembrava ancora presente nel portale, ma era la lista non aggiornata |
+| Agent deregistrato | Sì, `./config.sh remove` ha risposto `Succeeded: Removing agent from the server` e in `pool-ud09-wsl` l'Agent non c'è più |
+| repository conservato | Sì, i file Terraform, gli YAML e le consegne restano nel repository |
